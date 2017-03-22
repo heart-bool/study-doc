@@ -1,0 +1,18 @@
+nginx Linux安装教程
+
+1. 第一步： 
+		配置nginx 命令：./configure --prefix=安装路径
+						其他参数请参照官方文档
+2. 第二步：
+		编译 make 或者make        make install
+
+
+yum 安装
+
+1. 在 /etc/yum.repos.d/ 下创建一个文件 nginx.repo 内容如下：
+	[nginx]
+	name=nginx repo
+	baseurl=http://nginx.org/packages/系统名称（centos/Ubuntu....)/系统版本/$basearch/
+	gpgcheck=0
+	enabled=1
+2. yum install ningx -y
