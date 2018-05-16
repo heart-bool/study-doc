@@ -36,12 +36,23 @@
                     特点:
                         HashMap 按照映射的插入顺序保存元素. 故有序的集合.
                         HashMap 在多线程环境下是不安全的.
-                        Hash 冲突:
-                            HashMap 底层维护一个 Entry 数组, 每一个 Entry 数组使用链表来解决 Hash 冲突. 当在向HashMap中添加元素时, HashMap首先会检查key的hash值是否相同,
-                            当hash值相等再检查equals是否相等, 两者都相等时, 就会产生Hash冲突. 这时HashMap会将冲突的key放到对应的Entry数组的元素位置上, 将同一hash值的链表都存储在一个链表里.
-                            jdk1.8 之前. 如果hash值相等的元素较多时, 通过key获取值的效率就会有所降低. 在jdk1.8之后, HashMap采用Entry+链表+红黑树实现,
-                            当链表长度超过阈值（8）时, 将链表转换为红黑树，这样就减少了查找时间
-                        通过上面的处理, 我们会发现, 如果两个key 的hash值和equals都相等 则外部的两个key获取的都是最后添加到 HashMap 中的值.
+
+                        HashMap 是基于hash表来实现的(数组 + 链表 1.8中加入红黑树实现).
+
+                            static final int DEFAULT_INITIAL_CAPACITY = 1 << 4; // aka 16       : 默认数组的长度.
+                            static final int MAXIMUM_CAPACITY = 1 << 30;                        : 最大的
+                            static final float DEFAULT_LOAD_FACTOR = 0.75f;                     : 加载因子. 意思是在容量达到最大容量的 75%, HashMap 将进行扩容.
+                            static final int TREEIFY_THRESHOLD = 8;                             : 当数组中的同一个链表长度达到该值时, 将链表转换成红黑树.
+
+                        HashMap put 值的过程:
+                            求出 key 的 hashCode 值. 然后用hash值对数组长度取余, 来决定该key对象在数组中的存储位置. 当这个位置上存在多个元素时, 以链表来存储.
+                            在JDK1.8后, 当链表长度大于8的时候, 将链表转换成红黑树来存储.
+
+                        扩充:
+                            当前数组容量小于最大数组长度(Integer.MAX_VALUE), 当前数组容量 << 1. (原来的一倍)
+
+
+                        如果两个key 的hash值和equals都相等 则外部的两个key获取的都是最后添加到 HashMap 中的值.
                         例如:
                             String key1 = "hello";
                             String key2 = "hello";

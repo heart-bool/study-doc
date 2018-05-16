@@ -15,3 +15,9 @@
          
          对一个 List 进行 filter() 操作，然后生成新的 Stream。（中间）
          然后将新的 Stream 进行了 count() （终端）
+3. Optional 容器类
+
+      一个可以为null的容器对象. 创建Optional 的3中方式:
+         Optional.of()
+         Optional.ofNullable()
+         Optional.enpty()
