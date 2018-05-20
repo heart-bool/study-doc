@@ -81,8 +81,128 @@
         定义:
             当多个线程访问某个类时, 这个类始终保持正确的行为, 那么这个类就是线程安全的.
 
+    线程的特性:
+        1 原子性
+            当进行多个操作时, 要么都执行,  要么都不执行. 例如:
+                有一个变量 count, 在多线程情况下都其进行 count++ 操作时, 实际上这个操作包含了三个独立的步骤: 读取count的值 -> 将其值加1 -> 将计算结果赋值给count
+                这是一个操作序列, 并且其结果状态依赖于之前的状态. 所以在多线程情况下, 需要保证 count 的原子性, 也就是这三个独立的操作要么同时执行, 要么都不执行.
+            一般我们使用加锁的方式来保证这个操作的原子性.
+
+        2 可见性
+            当一个变量在多线程共享时, 任何一个线程对该变量的修改都是对其他线程可见的.
+        3 重排序
 
 
+    volatile 变量
+        Volatile 变量具有 synchronized 的可见性特性，但是不具备原子特性. 这就是说线程能够自动发现 volatile 变量的最新值。
+        Volatile 变量可用于提供线程安全，但是只能应用于非常有限的一组用例：多个变量之间或者某个变量的当前值与修改后值之间没有约束。
+        因此，单独使用 volatile 还不足以实现计数器、互斥锁或任何具有与多个变量相关的不变式（Invariants）的类
+        在某些情况下，如果读操作远远大于写操作，volatile 变量还可以提供优于锁的性能优势。
+
+        只能在有限的一些情形下使用 volatile 变量替代锁。要使 volatile 变量提供理想的线程安全，必须同时满足下面两个条件：
+            对变量的写操作不依赖于当前值。
+            该变量没有包含在具有其他变量的不变式中。
+        这些条件表明，可以被写入 volatile 变量的这些有效值独立于任何程序的状态，包括变量的当前状态。
+
+线程池
+
+
+
+
+单例模式
+
+
+    /***
+     * 传统单例模式: 懒汉式
+     * 缺点:
+     *      在多线程环境下不能正常工作
+     */
+    class SingeTest_01 {
+        private SingeTest_01() {
+        }
+
+        private static SingeTest_01 SINGE_TEST = null;
+
+        public static SingeTest_01 getInstance() {
+            if (SINGE_TEST == null) {
+                SINGE_TEST = new SingeTest_01();
+            }
+            return SINGE_TEST;
+        }
+    }
+
+    /***
+     * 线程安全的单例模式:
+     *      对方法加锁
+     *      缺点: 效率有影响
+     */
+    class SingeTest_02 {
+        private SingeTest_02() {
+        }
+
+        private static SingeTest_02 SINGE_TEST = null;
+
+        public synchronized static SingeTest_02 getInstance() {
+            if (SINGE_TEST == null) {
+                SINGE_TEST = new SingeTest_02();
+            }
+            return SINGE_TEST;
+        }
+    }
+
+    /***
+     * 线程安全的单例模式:
+     *      双重锁验证
+     */
+    class SingeTest_03 {
+        private SingeTest_03() {
+        }
+
+        private static SingeTest_03 SINGE_TEST = null;
+
+        public static SingeTest_03 getInstance() {
+            if (SINGE_TEST == null) {
+                synchronized (SingeTest_03.class) {
+                    if (SINGE_TEST == null) {
+                        SINGE_TEST = new SingeTest_03();
+                    }
+                }
+            }
+            return SINGE_TEST;
+        }
+    }
+
+
+    /***
+     * 静态内部类的方式
+     *
+     */
+    class SingeTest_04 {
+
+        private SingeTest_04() {
+        }
+
+        private static class InnerSingeTest {
+            private static SingeTest_04 SINGE_TEST = new SingeTest_04();
+        }
+
+        public static SingeTest_04 getInstance() {
+            return InnerSingeTest.SINGE_TEST;
+        }
+
+    }
+
+    //饿汉式单例类.在类初始化时，已经自行实例化
+    class SingeTest_05 {
+        private SingeTest_05() {
+        }
+
+        private static final SingeTest_05 SINGE_TEST = new SingeTest_05();
+
+        public static SingeTest_05 getInstance() {
+            return SINGE_TEST;
+        }
+    }
 
 
 
