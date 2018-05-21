@@ -67,3 +67,21 @@
                 线程阻塞队列的维护.
                 线程阻塞和唤醒.
 
+并发容器
+
+    ConcurrentHashMap
+        传统的并发容器使用 syncronized 实现, 在高并发情况下虽然实现了线程安全, 但效率会很低.
+        jdk 1.6 中, ConcurrentHashMap 维护一个Segment数组, 每一个 Segment 表示一个hash表结构(可以理解为一个HashMap), 每一个 Segment 都有一个count属性来表示该 Segment 中元素的个数
+        默认的并发级别下, Segment数组的长度是16.
+        在 ConcurrentHashMap 中，线程对映射表做读操作时，一般情况下不需要加锁就可以完成，对容器做结构性修改的操作才需要加锁。
+        put 过程:
+            首先计算key的hash值, 然后根据hash值找到相应的 Segment, 最后在这个 Segment 中执行具体的 put 操作.
+
+        注意：这里的加锁操作是针对（键的 hash 值对应的）某个具体的 Segment，锁定的是该 Segment 而不是整个 ConcurrentHashMap。
+        因为插入键 / 值对操作只是在这个 Segment 包含的某个桶中完成，不需要锁定整个ConcurrentHashMap。
+        此时，其他写线程对另外 15 个Segment 的加锁并不会因为当前线程对这个 Segment 的加锁而阻塞。
+        同时，所有读线程几乎不会因本线程的加锁而阻塞（除非读线程刚好读到这个 Segment 中某个 HashEntry 的 value 域的值为 null，此时需要加锁后重新读取该值）。
+
+        jdk 1.8 中抛弃了Segment分段锁机制，利用CAS+Synchronized来保证并发更新的安全，底层采用数组+链表+红黑树的存储结构。
+
+    ConcurrentSkipListMap

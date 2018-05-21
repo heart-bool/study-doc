@@ -56,6 +56,12 @@
                         stop(boolean on); // 直接终止线程
                         interrput(); //中断线程, 并在执行线程中抛出异常.
 
+        线程通信:
+            notify();
+            wait();
+
+            必须配合 syncronized 来使用. wait() 会释放锁, notify() 不释放锁.
+
         线程的状态转换
             1、新建状态(New):新创建了一个线程对象.
             2、就绪状态(Runnable):线程对象创建后,其他线程调用了该对象的start()方法.该状态的线程位于可运行线程池中,变得可运行,等待获取CPU的使用权.
@@ -94,6 +100,7 @@
 
 
     volatile 变量
+        使变量在多个线程间可见. 被volatile修饰的变量, 如果当前变量的值发生改变, 强制线程去主内存中读取.
         Volatile 变量具有 synchronized 的可见性特性，但是不具备原子特性. 这就是说线程能够自动发现 volatile 变量的最新值。
         Volatile 变量可用于提供线程安全，但是只能应用于非常有限的一组用例：多个变量之间或者某个变量的当前值与修改后值之间没有约束。
         因此，单独使用 volatile 还不足以实现计数器、互斥锁或任何具有与多个变量相关的不变式（Invariants）的类
@@ -183,10 +190,10 @@
         }
 
         private static class InnerSingeTest {
-            private static SingeTest_04 SINGE_TEST = new SingeTest_04();
+            private static InnerSingeTest SINGE_TEST = new InnerSingeTest();
         }
 
-        public static SingeTest_04 getInstance() {
+        public static InnerSingeTest getInstance() {
             return InnerSingeTest.SINGE_TEST;
         }
 
