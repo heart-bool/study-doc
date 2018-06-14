@@ -272,19 +272,29 @@
 
     修饰属性: 全局变量. 随类的加载而存在, 不创建类的对象实例也可以直接使用.
     修饰方法: 随类的加载而存在, 不创建类的对象实例也可以直接调用.
-    修饰类: 
+        不能调用非静态的方法. 
+        不能使用this和super
     
-11. main方法
-
-
-    s
-    
-12. 单例设计模式
-
-
-    s
-    
-13. 对象数组
-
-
-    s
+    修饰类: 一般用在静态内部类中
+        
+        内部类:
+            内部类可以无条件访问外部类的所有成员属性和成员方法, 包括私有的.     
+            OutClass.InnerClass obj = outClassInstance.new InnerClass(); //注意是外部类实例.new，内部类
+            
+            class OutClass {
+                double radius = 0;
+                 
+                public OutClass(double radius) {
+                    this.radius = radius;
+                }
+                 
+                class InnerClass {     //内部类
+                    public void InnerClass() {
+                        System.out.println("InnerClass");
+                    }
+                }
+            }
+        
+        静态内部类:
+            通常称为嵌套类. 在创建静态内部类的实例时, 不需要外部类的对象, 不能访问外部类的非静态成员变量和方法.
+            AAA.StaticInner in = new AAA.StaticInner(); //注意是外部类本身，静态内部类
