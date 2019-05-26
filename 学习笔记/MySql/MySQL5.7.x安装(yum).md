@@ -48,3 +48,12 @@ mysql -uroot -p
 set password root@localhost password('newpassword')
 ```
 
+#### 2.3.3 修改MySQL密码策略
+
+```
+set global validate_password_policy=0;
+
+set global validate_password_length=0;
+
+```
+

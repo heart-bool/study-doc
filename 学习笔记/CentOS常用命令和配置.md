@@ -110,6 +110,7 @@ hostnamectl --pretty
 
 ```shell
 hostnamectl set-hostname xxx
+vim /etc/sysconfig/network-scripts/ifcfg-ens33
 ```
 
 ### SELINUX

@@ -30,25 +30,25 @@ docker run -d \
 	--restart=unless-stopped \
 	-p 8080:8080 \
 	-p 9345:9345 \
-	--network=bridge
+	--network=bridge \
 	rancher/server:stable \
-	--db-host 192.168.1.180 \
+	--db-host 192.168.0.111 \
 	--db-port 3306 \
 	--db-user cattle \
 	--db-pass 11111111 \
 	--db-name cattle \
-	--advertise-address 192.168.1.180
+	--advertise-address 192.168.0.111
 # 机器IP = 172.16.135.132
 docker run -d \
 	--restart=unless-stopped \
 	-p 8080:8080 \
 	-p 9345:9345 \
 	rancher/server \
-	--db-host 数据库地址 \
+	--db-host 192.168.0.111 \
 	--db-port 3306 \
 	--db-user cattle \
 	--db-pass cattle \
 	--db-name cattle  \
-	--advertise-address 机器IP
+	--advertise-address 192.168.0.112
 ```
 

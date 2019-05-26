@@ -92,13 +92,14 @@ sudo vim /etc/chrony.conf
 # server 2.centos.pool.ntp.org iburst
 # server 3.centos.pool.ntp.org iburst
 # 加入以下内容
-server 172.16.135.51
+server 192.168.0.21
 
 #之后执行
 sudo systemctl restart chronyd.service
 sudo chronyc -a makestep
 sudo chronyc sourcestats
 sudo chronyc sources -v
+
 ```
 
 

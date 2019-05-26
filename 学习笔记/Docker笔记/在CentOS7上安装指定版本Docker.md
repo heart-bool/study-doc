@@ -33,9 +33,7 @@ yum list docker-ce --showduplicates
 指定安装的版本
 
 ```
-yum install -y --setopt=obsoletes=0 \
-   docker-ce-17.03.2.ce-1.el7.centos.x86_64 \
-   docker-ce-selinux-17.03.2.ce-1.el7.centos.noarch
+yum install -y docker-ce-18.06.3.ce-3.el7
    
 ```
 
@@ -49,6 +47,20 @@ yum install -y docker-ce
 
 ```
 systemctl enable docker
-systemctl start docker
+systemctl start docker 
+
+```
+
+## 5. 设置镜像加速器
+
+```
+sudo mkdir -p /etc/docker
+sudo tee /etc/docker/daemon.json <<-'EOF'
+{
+  "registry-mirrors": ["https://cxs1gh2d.mirror.aliyuncs.com"]
+}
+EOF
+sudo systemctl daemon-reload
+sudo systemctl restart docker
 ```
 

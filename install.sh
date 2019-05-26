@@ -1,3 +1,4 @@
+#!/bin/bash
 # jdk安装包路径
 JDK_PACKAGE_DIR=$1
 INSTALL_DIR=$2
