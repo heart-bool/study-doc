@@ -2,8 +2,8 @@
 面向对象进阶
 """
 
-class Person(object):
 
+class Person(object):
     """
         1. @property装饰器：
             相当于java中定义getter和setter方法
@@ -17,7 +17,6 @@ class Person(object):
             Python中定义静态方法的方式为使用 @staticmethod 装饰器。
     """
     __slots__ = ('_name', '_age', '_gender')
-
 
     # def __init__(self, name, age, gender1):
     #     self._name = name
@@ -49,6 +48,7 @@ class Person(object):
     def age(self, age):
         self._age = age
 
+
 def main():
     per = Person("wangfeng", 20, 1)
     per.age = 21
@@ -58,7 +58,6 @@ def main():
 
     Person.play()
     per.eat()
-
 
 
 if __name__ == '__main__':
